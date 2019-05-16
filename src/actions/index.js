@@ -1,23 +1,14 @@
-let nextTodoId = 0
-let deletedTodoId = []
-let addTodoWithMemo = () => {
-  return deletedTodoId.length > 0 ? deletedTodoId.shift() : ++nextTodoId
-}
+import uuidv1 from 'uuid/v1'
 
-const deleteTodoWithMemo = deleteTodoId => {
-  deletedTodoId.push(deleteTodoId)
-  return deleteTodoId
-}
-
-export const addTodo = text => ({
+export const addTodo = (text, uuidv1option = {}) => ({
   type: 'ADD_TODO',
-  id: addTodoWithMemo(),
+  id: uuidv1(uuidv1option),
   text
 })
 
 export const deleteTodo = deleteTodoId => ({
   type: 'DELETE_TODO',
-  id: deleteTodoWithMemo(deleteTodoId)
+  id: deleteTodoId
 })
 
 export const setVisibilityFilter = filter => ({
