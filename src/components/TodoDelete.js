@@ -1,16 +1,16 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import DeleteIcon from '@material-ui/icons/Delete';
+import {ListItemSecondaryAction, IconButton} from '@material-ui/core'
 
 const TodoDelete = ({ onClick }) => (
-  <button 
-    type="submit" 
+  <ListItemSecondaryAction 
     onClick={onClick}
-    style={{
-      margin: '4px'
-    }}
   >
-    Delete
-  </button>
+    <IconButton edge="end" aria-label="delete">
+      <DeleteIcon />
+    </IconButton>
+  </ListItemSecondaryAction>
 )
 
 TodoDelete.propTypes = {

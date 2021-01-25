@@ -1,17 +1,15 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import {List, ListItem} from '@material-ui/core'
 import Todo from './Todo'
 import TodoDelete from './TodoDelete'
 
 const TodoList = ({ todos, toggleTodo, deleteTodo }) => (
-  <ul>
+  <List>
     {todos.map(todo =>
-      <div
+      <ListItem
         key={todo.id}
-        style={{
-          display: 'flex',
-          margin: '4px'
-        }}
+        button
       >
         <Todo
           {...todo}
@@ -20,9 +18,9 @@ const TodoList = ({ todos, toggleTodo, deleteTodo }) => (
         <TodoDelete
           onClick={() => deleteTodo(todo.id)}
         />
-      </div>
+      </ListItem>
     )}
-  </ul>
+  </List>
 )
 
 TodoList.propTypes = {
