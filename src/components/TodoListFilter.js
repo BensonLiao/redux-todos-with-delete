@@ -1,9 +1,10 @@
 import React from 'react'
+import {Box} from '@material-ui/core'
 import FilterLink from '../containers/FilterLink'
 import { VisibilityFilters } from '../actions'
 
-const Footer = () => (
-  <div>
+const TodoListFilter = () => (
+  <Box component='div' m={1}>
     <span>Show: </span>
     <FilterLink filter={VisibilityFilters.SHOW_ALL}>
       All
@@ -14,7 +15,7 @@ const Footer = () => (
     <FilterLink filter={VisibilityFilters.SHOW_COMPLETED}>
       Completed
     </FilterLink>
-  </div>
+  </Box>
 )
 
-export default Footer
+export default TodoListFilter
