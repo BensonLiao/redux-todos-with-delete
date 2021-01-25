@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useState, useCallback} from 'react'
 import { connect } from 'react-redux'
 import { addTodo } from '../actions'
 import AddCircleIcon from '@material-ui/icons/AddCircle'
@@ -18,32 +18,30 @@ const useStyles = makeStyles((theme) => ({
 
 const AddTodo = ({ dispatch }) => {
   const classes = useStyles();
-  let input
+  const [totoTitle, setTodoTitle] = useState('');
+  const changeTodoListTitle = useCallback(event => {
+    setTodoTitle(event.target.value);
+  }, []);
 
   return (
     <div>
       <Paper 
         component="form"
         className={classes.root}
-        onSubmit={e => {
-          e.preventDefault()
-          if (!input.value.trim()) {
-            return
-          }
-          dispatch(addTodo(input.value))
-          input.value = ''
-        }}
+        onSubmit={() => dispatch(addTodo(totoTitle))}
       >
         <InputBase
           className={classes.input}
           placeholder="Please type a todo title"
+          defaultValue={totoTitle}
+          onChange={changeTodoListTitle}
         />
         <IconButton type="submit" aria-label="add">
           <AddCircleIcon />
         </IconButton>
       </Paper>
     </div>
-  )
+  );
 }
 
-export default connect()(AddTodo)
+export default connect()(AddTodo);
