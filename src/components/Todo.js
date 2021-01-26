@@ -2,12 +2,26 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import {makeStyles, useTheme, ListItem, ListItemText} from '@material-ui/core'
 import TodoDelete from './TodoDelete'
+
 const useStyles = makeStyles({
   list: props => ({
+    borderRadius: 4,
+    border: 0,
     backgroundColor: props.completed ? props.palette.success.light : props.palette.info.light,
     color: props.palette.primary.contrastText,
     '&:hover': {
       color: props.palette.text.primary
+    },
+    '&:not(:first-child):not(:last-child)': {
+      borderRadius: 0,
+    },
+    '&:first-child': {
+      borderBottomLeftRadius: 0,
+      borderBottomRightRadius: 0,
+    },
+    '&:last-child': {
+      borderTopLeftRadius: 0,
+      borderTopRightRadius: 0
     }
   }),
 });
