@@ -1,24 +1,12 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {List, ListItem} from '@material-ui/core'
-import Todo from './Todo'
-import TodoDelete from './TodoDelete'
+import {List} from '@material-ui/core'
+import Todo from '../containers/Todo'
 
-const TodoList = ({ todos, toggleTodo, deleteTodo }) => (
+const TodoList = ({ todos }) => (
   <List>
     {todos.map(todo =>
-      <ListItem
-        key={todo.id}
-        button
-      >
-        <Todo
-          {...todo}
-          onClick={() => toggleTodo(todo.id)}
-        />
-        <TodoDelete
-          onClick={() => deleteTodo(todo.id)}
-        />
-      </ListItem>
+      <Todo key={todo.id} todo={todo}/>
     )}
   </List>
 )
@@ -28,9 +16,7 @@ TodoList.propTypes = {
     id: PropTypes.string.isRequired,
     completed: PropTypes.bool.isRequired,
     text: PropTypes.string.isRequired
-  }).isRequired).isRequired,
-  toggleTodo: PropTypes.func.isRequired,
-  deleteTodo: PropTypes.func.isRequired
+  }).isRequired).isRequired
 }
 
 export default TodoList
