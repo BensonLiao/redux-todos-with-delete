@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import {Button} from '@material-ui/core'
 
-const Link = ({ active, children, onClick }) => (
+const FilterButton = ({ active, children, onClick }) => (
     <Button
       variant="outlined"
       color="primary"
@@ -13,10 +13,10 @@ const Link = ({ active, children, onClick }) => (
     </Button>
 )
 
-Link.propTypes = {
+FilterButton.propTypes = {
   active: PropTypes.bool.isRequired,
   children: PropTypes.node.isRequired,
   onClick: PropTypes.func.isRequired
 }
 
-export default Link
+export default FilterButton
