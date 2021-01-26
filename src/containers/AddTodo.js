@@ -24,23 +24,21 @@ const AddTodo = ({ dispatch }) => {
   }, []);
 
   return (
-    <div>
-      <Paper 
-        component="form"
-        className={classes.root}
-        onSubmit={() => dispatch(addTodo(totoTitle))}
-      >
-        <InputBase
-          className={classes.input}
-          placeholder="Please type a todo title"
-          defaultValue={totoTitle}
-          onChange={changeTodoListTitle}
-        />
-        <IconButton type="submit" aria-label="add">
-          <AddCircleIcon />
-        </IconButton>
-      </Paper>
-    </div>
+    <Paper 
+      component="form"
+      className={classes.root}
+      onSubmit={() => dispatch(addTodo(totoTitle))}
+    >
+      <InputBase
+        className={classes.input}
+        placeholder="Please type a todo title"
+        defaultValue={totoTitle}
+        onChange={changeTodoListTitle}
+      />
+      <IconButton type="submit" aria-label="add">
+        <AddCircleIcon />
+      </IconButton>
+    </Paper>
   );
 }
 
