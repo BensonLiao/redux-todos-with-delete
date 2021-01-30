@@ -3,10 +3,10 @@ import {useHistory, useLocation} from "react-router-dom";
 import {TextField, Button} from '@material-ui/core';
 import {useAuth} from './App'
 
-const LoginPage = () => {
-  let history = useHistory();
-  let location = useLocation();
-  let auth = useAuth();
+const Login = () => {
+  const history = useHistory();
+  const location = useLocation();
+  const auth = useAuth();
   const [username, setUserName] = useState('');
   const handleUserNameChange = event => {
     setUserName(event.target.value);
@@ -16,8 +16,8 @@ const LoginPage = () => {
     setPassword(event.target.value);
   };
 
-  let { from } = location.state || { from: { pathname: "/" } };
-  let login = () => {
+  const { from } = location.state || { from: { pathname: "/" } };
+  const login = () => {
     auth.signin(username, password, () => {
       history.replace(from);
     });
@@ -47,4 +47,4 @@ const LoginPage = () => {
   );
 }
 
-export default LoginPage;
+export default Login;

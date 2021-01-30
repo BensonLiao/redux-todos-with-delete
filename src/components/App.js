@@ -10,7 +10,9 @@ import {
 import axios from 'axios';
 import {Container} from '@material-ui/core';
 import { ThemeProvider, createMuiTheme } from "@material-ui/core/styles";
-import LoginPage from './LoginPage';
+import Login from './Login';
+import Home from './Home';
+import Profile from './Profile';
 import AddTodo from '../containers/AddTodo';
 import VisibleTodoList from '../containers/VisibleTodoList';
 import TodoListFilter from './TodoListFilter';
@@ -62,10 +64,37 @@ const useProvideAuth = () => {
         }
       )
       .then(({data}) => {
-        console.log('data', data);
-        setUser(username);
+        // Do not store any sensitive data for security.
+        delete data.password
+        setUser(data);
         cb();
       });
+      // setUser({username: 'elon musk', code: 'spacex', timezone: 1});
+      // cb();
+    });
+  };
+
+  const updateUser = (objectId, sessionToken, timezone) => {
+    return axios.put(
+      `https://watch-master-staging.herokuapp.com/api/users/${objectId}`,
+      {
+        timezone: +timezone
+      },
+      {
+        headers: {
+          'X-Parse-Application-Id': API_KEY,
+          'X-Parse-REST-API-Key': '',
+          'X-Parse-Session-Token': sessionToken
+        }
+      }
+    )
+    .then(() => {
+      // Normally we call get api again to retrieve the latest data,
+      // however the get api require password and its unsafe to store user password in app,
+      // so here's a simple workaround to update data.
+      const updatedUser = user;
+      updatedUser.timezone = timezone;
+      setUser(updatedUser);
     });
   };
 
@@ -78,6 +107,7 @@ const useProvideAuth = () => {
 
   return {
     user,
+    updateUser,
     signin,
     signout
   };
@@ -87,19 +117,20 @@ const AuthButton = () => {
   let history = useHistory();
   let auth = useAuth();
 
-  return auth.user ? (
-    <p>
-      Welcome!{" "}
-      <button
-        onClick={() => {
-          auth.signout(() => history.push("/"));
-        }}
-      >
-        Sign out
-      </button>
-    </p>
-  ) : (
-    <p>You are not logged in.</p>
+  return (
+    <div>
+      {auth.user ? (
+        <button
+          onClick={() => {
+            auth.signout(() => history.push("/"));
+          }}
+        >
+          Sign out
+        </button>
+      ) : (
+        <p>You are not logged in.</p>
+      )}
+    </div>
   );
 }
 
@@ -133,18 +164,30 @@ const App = () => {
         <Router>
           <div>
             <AuthButton />
+            <Route path="/login">
+              <Login />
+            </Route>
 
             <ul>
               <li>
-                <Link to="/protected">Protected Page</Link>
+                <Link to="/home">Home</Link>
+              </li>
+              <li>
+                <Link to="/profile">Profile</Link>
+              </li>
+              <li>
+                <Link to="/todolist">Todo List</Link>
               </li>
             </ul>
 
             <Switch>
-              <Route path="/login">
-                <LoginPage />
-              </Route>
-              <PrivateRoute path="/protected">
+              <PrivateRoute path="/home">
+                <Home />
+              </PrivateRoute>
+              <PrivateRoute path="/profile">
+                <Profile />
+              </PrivateRoute>
+              <PrivateRoute path="/todolist">
                 <AddTodo />
                 <TodoListFilter />
                 <VisibleTodoList />
