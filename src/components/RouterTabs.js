@@ -16,50 +16,48 @@ const useStyles = makeStyles({
   },
 });
 
-const PrivateRoute = ({ children, ...rest }) => {
+const PrivateRoute = ({ component, ...rest }) => {
   const auth = useAuth();
   return (
     <Route
       {...rest}
-      render={() =>
-        auth.user ? (
-          children
-        ) : null
-      }
+      component={auth.user ? component : null}
     />
   );
+}
+
+const TodoList = () => {
+  return (
+    <>
+      <AddTodo />
+      <TodoListFilter />
+      <VisibleTodoList />
+    </>
+  )
 }
   
 const RouterTabs = withRouter(({location}) => {
   const classes = useStyles();
   return (
     <>
-    <Paper className={classes.root}>
-      <Tabs
-        value={location.pathname}
-        indicatorColor="primary"
-        textColor="primary"
-        centered
-      >
-        <Tab label="Home" component={Link} to="/" value='/'/>
-        <Tab label="Profile" component={Link} to="/profile" value='/profile'/>
-        <Tab label="Todo List" component={Link} to="/todolist" value='/todolist'/>
-      </Tabs>
-    </Paper>
+      <Paper className={classes.root}>
+        <Tabs
+          value={location.pathname !== '/' ? location.pathname : false}
+          indicatorColor="primary"
+          textColor="primary"
+          centered
+        >
+          <Tab label="Home" component={Link} to="/home" value='/home'/>
+          <Tab label="Profile" component={Link} to="/profile" value='/profile'/>
+          <Tab label="Todo List" component={Link} to="/todolist" value='/todolist'/>
+        </Tabs>
+      </Paper>
 
-    <Switch>
-      <PrivateRoute path="/">
-        <Home />
-      </PrivateRoute>
-      <PrivateRoute path="/profile">
-        <Profile />
-      </PrivateRoute>
-      <PrivateRoute path="/todolist">
-        <AddTodo />
-        <TodoListFilter />
-        <VisibleTodoList />
-      </PrivateRoute>
-    </Switch>
+      <Switch>
+        <PrivateRoute path="/home" component={Home}/>
+        <PrivateRoute path="/profile" component={Profile}/>
+        <PrivateRoute path="/todolist" component={TodoList}/>
+      </Switch>
     </>
   );
 });
