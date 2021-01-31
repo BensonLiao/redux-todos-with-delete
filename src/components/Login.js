@@ -25,24 +25,25 @@ const Login = () => {
 
   return (
     <div>
-    <p>You must log in to view the page at {from.pathname}</p>
-    <form>
-      <div>
-        <TextField id="user-name" label="Name" value={username} onChange={handleUserNameChange} />
-      </div>
-      <div>
-        <TextField id="password" label="Password" type="password" value={password} onChange={handlePasswordChange} />
-      </div>
-      <div>
-        <Button 
-          variant="outlined"
-          color="primary"
-          onClick={login}
-        >
-          Log in
-        </Button>
-      </div>
-    </form>
+      {auth.user ? null : (
+        <form>
+          <div>
+            <TextField id="user-name" label="Name" value={username} onChange={handleUserNameChange} />
+          </div>
+          <div>
+            <TextField id="password" label="Password" type="password" value={password} onChange={handlePasswordChange} />
+          </div>
+          <div>
+            <Button 
+              variant="outlined"
+              color="primary"
+              onClick={login}
+            >
+              Log in
+            </Button>
+          </div>
+        </form>
+      )}
     </div>
   );
 }

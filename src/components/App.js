@@ -1,21 +1,11 @@
-import React , { useContext, createContext, useState } from "react";
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Link,
-  Redirect,
-  useHistory
-} from "react-router-dom";
+import React, {useContext, createContext, useState} from "react";
+import {BrowserRouter as Router, useHistory} from "react-router-dom";
 import axios from 'axios';
 import {Container} from '@material-ui/core';
-import { ThemeProvider, createMuiTheme } from "@material-ui/core/styles";
+import {ThemeProvider, createMuiTheme} from "@material-ui/core/styles";
+import RouterTabs from './RouterTabs';
 import Login from './Login';
-import Home from './Home';
-import Profile from './Profile';
-import AddTodo from '../containers/AddTodo';
-import VisibleTodoList from '../containers/VisibleTodoList';
-import TodoListFilter from './TodoListFilter';
+
 const API_KEY = process.env.REACT_APP_API_KEY;
 
 const fakeAuth = {
@@ -134,68 +124,18 @@ const AuthButton = () => {
   );
 }
 
-const PrivateRoute = ({ children, ...rest }) => {
-  let auth = useAuth();
-  return (
-    <Route
-      {...rest}
-      render={({ location }) =>
-        auth.user ? (
-          children
-        ) : (
-          <Redirect
-            to={{
-              pathname: "/login",
-              state: { from: location }
-            }}
-          />
-        )
-      }
-    />
-  );
-}
-
 const App = () => {
   const theme = createMuiTheme();
   return (
     <Container maxWidth='sm'>
       <ThemeProvider theme={theme}>
         <ProvideAuth>
-        <Router>
-          <div>
+          <Router>
             <AuthButton />
-            <Route path="/login">
-              <Login />
-            </Route>
-
-            <ul>
-              <li>
-                <Link to="/home">Home</Link>
-              </li>
-              <li>
-                <Link to="/profile">Profile</Link>
-              </li>
-              <li>
-                <Link to="/todolist">Todo List</Link>
-              </li>
-            </ul>
-
-            <Switch>
-              <PrivateRoute path="/home">
-                <Home />
-              </PrivateRoute>
-              <PrivateRoute path="/profile">
-                <Profile />
-              </PrivateRoute>
-              <PrivateRoute path="/todolist">
-                <AddTodo />
-                <TodoListFilter />
-                <VisibleTodoList />
-              </PrivateRoute>
-            </Switch>
-          </div>
-        </Router>
-      </ProvideAuth>
+            <Login />
+            <RouterTabs/>
+          </Router>
+        </ProvideAuth>
       </ThemeProvider>
     </Container>
   )
