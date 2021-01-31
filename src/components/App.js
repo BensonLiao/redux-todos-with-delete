@@ -104,8 +104,8 @@ const useProvideAuth = () => {
 }
 
 const AuthButton = () => {
-  let history = useHistory();
-  let auth = useAuth();
+  const history = useHistory();
+  const auth = useAuth();
 
   return (
     <div>
