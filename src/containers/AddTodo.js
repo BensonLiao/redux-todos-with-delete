@@ -16,7 +16,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-const AddTodo = ({ dispatch }) => {
+const AddTodo = ({ addTodo }) => {
   const classes = useStyles();
   const [totoTitle, setTodoTitle] = useState('');
   const changeTodoListTitle = useCallback(event => {
@@ -24,22 +24,28 @@ const AddTodo = ({ dispatch }) => {
   }, []);
 
   return (
-    <Paper 
-      component="form"
-      className={classes.root}
-      onSubmit={() => dispatch(addTodo(totoTitle))}
-    >
+    <Paper className={classes.root}>
       <InputBase
         className={classes.input}
         placeholder="Please type a todo title"
         defaultValue={totoTitle}
         onChange={changeTodoListTitle}
       />
-      <IconButton type="submit" aria-label="add">
+      <IconButton 
+        aria-label="add"
+        onClick={() => addTodo(totoTitle)}
+      >
         <AddCircleIcon />
       </IconButton>
     </Paper>
   );
 }
 
-export default connect()(AddTodo);
+const mapDispatchToProps = dispatch => ({
+  addTodo: title => dispatch(addTodo(title))
+})
+
+export default connect(
+  null,
+  mapDispatchToProps
+)(AddTodo);

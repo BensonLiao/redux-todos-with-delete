@@ -40,27 +40,27 @@ const useProvideAuth = () => {
 
   const signin = (username, password, cb) => {
     return fakeAuth.signin(() => {
-      axios.get(
-        'https://watch-master-staging.herokuapp.com/api/login',
-        {
-          headers: {
-            'X-Parse-Application-Id': API_KEY,
-            'X-Parse-REST-API-Key': ''
-          },
-          params: {
-            username,
-            password
-          }
-        }
-      )
-      .then(({data}) => {
-        // Do not store any sensitive data for security.
-        delete data.password
-        setUser(data);
-        cb();
-      });
-      // setUser({username: 'elon musk', code: 'spacex', timezone: 1});
-      // cb();
+      // axios.get(
+      //   'https://watch-master-staging.herokuapp.com/api/login',
+      //   {
+      //     headers: {
+      //       'X-Parse-Application-Id': API_KEY,
+      //       'X-Parse-REST-API-Key': ''
+      //     },
+      //     params: {
+      //       username,
+      //       password
+      //     }
+      //   }
+      // )
+      // .then(({data}) => {
+      //   // Do not store any sensitive data for security.
+      //   delete data.password
+      //   setUser(data);
+      //   cb();
+      // });
+      setUser({username: 'elon musk', code: 'spacex', timezone: 1});
+      cb();
     });
   };
 
