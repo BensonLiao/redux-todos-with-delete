@@ -1,6 +1,7 @@
 import React, {useState} from 'react'
 import {
   makeStyles,
+  useTheme,
   TextField,
   Button,
   List, 
@@ -11,14 +12,34 @@ import {
 import {useAuth} from './App'
 
 const useStyles = makeStyles({
-  list: () => ({
-    borderRadius: 4,
-    border: '1px solid black',
+  list: props => ({
+    '& li': {
+      borderRadius: 4,
+      border: `1px solid ${props.palette.primary.main}`,
+      color: props.palette.text.primary,
+      '&:hover': {
+        color: props.palette.primary.main
+      },
+      '&:not(:first-child):not(:last-child)': {
+        borderRadius: 0,
+        borderTopWidth: 0
+      },
+      '&:first-child': {
+        borderBottomLeftRadius: 0,
+        borderBottomRightRadius: 0
+      },
+      '&:last-child': {
+        borderTopLeftRadius: 0,
+        borderTopRightRadius: 0,
+        borderTopWidth: 0
+      }
+    }
   }),
 });
 
 const Profile = () => {
-  const classes = useStyles();
+  const theme = useTheme();
+  const classes = useStyles(theme);
   const auth = useAuth();
   const [timezone, setTimezone] = useState(auth.user.timezone);
   const handleTimezoneChange = event => {
@@ -31,10 +52,8 @@ const Profile = () => {
   };
 
   return (
-    <List>
-      <ListItem
-        className={classes.list}
-      >
+    <List className={classes.list}>
+      <ListItem>
         <ListItemText
           primary="Username: "
         />
@@ -42,9 +61,7 @@ const Profile = () => {
           primary={auth.user.username}
         />
       </ListItem>
-      <ListItem
-        className={classes.list}
-      >
+      <ListItem>
         <ListItemText
           primary="Code: "
         />
@@ -52,9 +69,7 @@ const Profile = () => {
           primary={auth.user.code}
         />
       </ListItem>
-      <ListItem
-        className={classes.list}
-      >
+      <ListItem>
         <ListItemText
           primary="Timezone: "
         />
