@@ -72,7 +72,7 @@ const Profile = () => {
         <ListItemSecondaryAction 
           onClick={updateTimezone}
         >
-          <Button>
+          <Button variant="outlined" color="primary">
             Change
           </Button>
         </ListItemSecondaryAction>

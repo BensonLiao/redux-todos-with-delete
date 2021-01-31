@@ -1,7 +1,7 @@
 import React, {useContext, createContext, useState} from "react";
 import {BrowserRouter as Router, useHistory} from "react-router-dom";
 import axios from 'axios';
-import {Container} from '@material-ui/core';
+import {Container, Button} from '@material-ui/core';
 import {ThemeProvider, createMuiTheme} from "@material-ui/core/styles";
 import RouterTabs from './RouterTabs';
 import Login from './Login';
@@ -110,13 +110,15 @@ const AuthButton = () => {
   return (
     <div>
       {auth.user ? (
-        <button
+        <Button
+          variant="outlined"
+          color="primary"
           onClick={() => {
             auth.signout(() => history.push("/"));
           }}
         >
           Sign out
-        </button>
+        </Button>
       ) : (
         <p>You are not logged in.</p>
       )}
