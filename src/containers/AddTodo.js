@@ -1,6 +1,6 @@
-import React, {useState, useCallback} from 'react'
-import { connect } from 'react-redux'
-import { addTodo } from '../actions'
+import React, {useRef} from 'react'
+import {connect} from 'react-redux'
+import {addTodo} from '../actions'
 import AddCircleIcon from '@material-ui/icons/AddCircle'
 import {makeStyles, Paper, InputBase, IconButton} from '@material-ui/core'
 
@@ -16,30 +16,32 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-const AddTodo = ({ dispatch }) => {
+const AddTodo = ({addTodo}) => {
   const classes = useStyles();
-  const [totoTitle, setTodoTitle] = useState('');
-  const changeTodoListTitle = useCallback(event => {
-    setTodoTitle(event.target.value);
-  }, []);
+  const inputRef = useRef();
 
   return (
-    <Paper 
-      component="form"
-      className={classes.root}
-      onSubmit={() => dispatch(addTodo(totoTitle))}
-    >
+    <Paper className={classes.root}>
       <InputBase
         className={classes.input}
         placeholder="Please type a todo title"
-        defaultValue={totoTitle}
-        onChange={changeTodoListTitle}
+        ref={inputRef}
       />
-      <IconButton type="submit" aria-label="add">
+      <IconButton 
+        aria-label="add"
+        onClick={() => inputRef.current && addTodo(inputRef.current.firstChild.value)}
+      >
         <AddCircleIcon />
       </IconButton>
     </Paper>
   );
 }
 
-export default connect()(AddTodo);
+const mapDispatchToProps = dispatch => ({
+  addTodo: title => dispatch(addTodo(title))
+})
+
+export default connect(
+  null,
+  mapDispatchToProps
+)(AddTodo);
