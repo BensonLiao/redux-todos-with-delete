@@ -38,29 +38,35 @@ export const useAuth = () => {
 const useProvideAuth = () => {
   const [user, setUser] = useState(null);
 
-  const signin = (username, password, cb) => {
+  const signinMock = cb => {
     return fakeAuth.signin(() => {
-      // axios.get(
-      //   'https://watch-master-staging.herokuapp.com/api/login',
-      //   {
-      //     headers: {
-      //       'X-Parse-Application-Id': API_KEY,
-      //       'X-Parse-REST-API-Key': ''
-      //     },
-      //     params: {
-      //       username,
-      //       password
-      //     }
-      //   }
-      // )
-      // .then(({data}) => {
-      //   // Do not store any sensitive data for security.
-      //   delete data.password
-      //   setUser(data);
-      //   cb();
-      // });
       setUser({username: 'elon musk', code: 'spacex', timezone: 1});
       cb();
+    });
+  };
+
+  const signin = (username, password, cb) => {
+    return fakeAuth.signin(() => {
+      axios.get(
+        'https://watch-master-staging.herokuapp.com/api/login',
+        {
+          headers: {
+            'X-Parse-Application-Id': API_KEY,
+            'X-Parse-REST-API-Key': ''
+          },
+          params: {
+            username,
+            password
+          }
+        }
+      )
+      .then(({data}) => {
+        // Do not store any sensitive data for security,
+        // or use some encryption library like `https://simplecrypto.js.org/`.
+        delete data.password
+        setUser(data);
+        cb();
+      });
     });
   };
 
@@ -98,6 +104,7 @@ const useProvideAuth = () => {
   return {
     user,
     updateUser,
+    signinMock,
     signin,
     signout
   };
