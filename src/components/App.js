@@ -6,6 +6,9 @@ import {ThemeProvider, createMuiTheme} from "@material-ui/core/styles";
 import RouterTabs from './RouterTabs';
 import Login from './Login';
 
+// We use standard way to store secrets,
+// be sure to create it from your local environment.
+// e.g. a file named `.env` in project root folder and its content was 1 line of `REACT_APP_API_KEY=XXX`
 const API_KEY = process.env.REACT_APP_API_KEY;
 
 const fakeAuth = {
