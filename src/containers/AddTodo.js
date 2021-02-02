@@ -1,6 +1,6 @@
 import React, {useRef} from 'react'
 import {connect} from 'react-redux'
-import {addTodo} from '../actions'
+import {addTodo, setVisibilityFilter, VisibilityFilters} from '../actions'
 import AddCircleIcon from '@material-ui/icons/AddCircle'
 import {makeStyles, Paper, InputBase, IconButton} from '@material-ui/core'
 
@@ -16,7 +16,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-const AddTodo = ({addTodo}) => {
+const AddTodo = ({addTodo, showAllTodo}) => {
   const classes = useStyles();
   const inputRef = useRef();
 
@@ -29,7 +29,10 @@ const AddTodo = ({addTodo}) => {
       />
       <IconButton 
         aria-label="add"
-        onClick={() => inputRef.current && addTodo(inputRef.current.firstChild.value)}
+        onClick={() => {
+          inputRef.current && addTodo(inputRef.current.firstChild.value);
+          showAllTodo();
+        }}
       >
         <AddCircleIcon />
       </IconButton>
@@ -38,7 +41,8 @@ const AddTodo = ({addTodo}) => {
 }
 
 const mapDispatchToProps = dispatch => ({
-  addTodo: title => dispatch(addTodo(title))
+  addTodo: title => dispatch(addTodo(title)),
+  showAllTodo: () => dispatch(setVisibilityFilter(VisibilityFilters.SHOW_ALL))
 })
 
 export default connect(
